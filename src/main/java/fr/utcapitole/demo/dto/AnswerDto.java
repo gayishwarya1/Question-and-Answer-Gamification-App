@@ -20,6 +20,6 @@ public class AnswerDto {
     private int likes;
     private boolean pinned;
     List<Comment> comments = new ArrayList<>();
-    // todo: add photo of the user ?
+    
 }
 
