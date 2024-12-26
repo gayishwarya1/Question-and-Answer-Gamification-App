@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <link th:href="@{/css/main.css}" rel="stylesheet"/>
+  <link th:href="@{/css/user-profile.css}" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+
+
+
+  </style>
+</head>
+<body>
+<header>
+  <h1>User Profile</h1>
+</header>
+
+<div class="profile-container">
+  <div class="profile-header">
+    <img src="https://via.placeholder.com/120" alt="User Avatar">
+    <h1><span th:text="${user.username}"></span></h1>
+    <td>
+      <span th:text="${user.team}"></span>
+      <span th:if="${user.team == 'Gryffindor'}" class="team-emoji">🦁</span>
+      <span th:if="${user.team == 'Hufflepuff'}" class="team-emoji">🦡</span>
+      <span th:if="${user.team == 'Ravenclaw'}" class="team-emoji">🦅</span>
+      <span th:if="${user.team == 'Slytherin'}" class="team-emoji">🐍</span>
+    </td>
+  </div>
+
+  <div class="profile-row">
+    <div class="profile-details">
+      <p><strong>Email:</strong> <span th:text="${user.email}">Email</span></p>
+      <p><strong>Roles:</strong> <span th:text="${user.roles}">Roles</span></p>
+      <p><strong>Birthday:</strong> <span th:text="${#strings.substring(user.birthday, 0, 10)}">Birthday</span></p>
+    </div>
+
+    <div class="badges-container">
+      <span th:if="${user.badge == 'Gold'}" class="badge gold">Gold Member</span>
+      <span th:if="${user.badge == 'Silver'}" class="badge silver">Silver Member</span>
+      <span th:if="${user.badge == 'Bronze'}" class="badge bronze">Bronze Member</span>
+    </div>
+  </div>
+
+
+  <section class="unanswered-questions">
+    <h2>Unanswered Questions</h2>
+    <ul th:each="question : ${unansweredQuestions}">
+      <li th:if="${question.author == user.username}">
+        <a th:href="|/questions/${question.id}|" th:text="${question.title}"></a>
+      </li>
+    </ul>
+    <p th:if="${unansweredQuestions.size() == 0}" class="no-questions">No unanswered questions at the moment.</p>
+  </section>
+
+
+  <div class="back-button-container">
+    <a href="javascript:history.back()" class="btn back-btn"><i class="fa fa-arrow-left"></i> Back</a>
+  </div>
+</div>
+</body>
+</html>

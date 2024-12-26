@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboard</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<header>
+    <h1><a href="http://localhost:8080" style="text-decoration: none; color: inherit;">Leaderboard</a></h1>
+</header>
+
+<main>
+    <h2>Top Players</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Score</th>
+            <th>Team</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="entry, iterStat : ${leaderboard}">
+            <td>
+                <a th:href="'http://localhost:8080/' + ${entry.username}">
+                    <span th:text="${entry.username}"></span>
+                </a>
+
+
+
+                <span th:if="${iterStat.index == 0}" class="gold-badge">🏆</span>
+            </td>
+            <td th:text="${entry.score}"></td>
+            <td>
+                <span th:text="${entry.team}"></span>
+                <span th:if="${entry.team == 'Gryffindor'}" class="team-emoji">🦁</span>
+                <span th:if="${entry.team == 'Hufflepuff'}" class="team-emoji">🦡</span>
+                <span th:if="${entry.team == 'Ravenclaw'}" class="team-emoji">🦅</span>
+                <span th:if="${entry.team == 'Slytherin'}" class="team-emoji">🐍</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <p th:if="${#lists.isEmpty(leaderboard)}" class="no-categories">
+        No entries found in the leaderboard!
+    </p>
+</main>
+
+</body>
+</html>

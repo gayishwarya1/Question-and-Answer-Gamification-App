@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A - Ask Your Question</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <h1>Ask Your Question</h1>
+</header>
+
+<main>
+    <h2>Question Details</h2>
+    <table>
+        <tbody>
+        <tr>
+            <th>Author</th>
+            <td><a th:href="'http://localhost:8080/' + ${question.getAuthor()}" th:text="${question.getAuthor()}">Author</a></td>
+
+
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td><span th:text="${question.getTitle()}">Title</span></td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>
+                <span th:if="${question.category != null}" th:text="${question.category.id}">Category</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td><span th:text="${question.getContent()}">Content</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Submit an Answer</h2>
+    <form th:action="@{/questions/{id}/answer(id=${question.id})}" method="post">
+        <p>
+            <label for="newAnswer"></label>
+            <textarea id="newAnswer" name="newAnswer" class="answer-box" placeholder="Enter your answer here" required></textarea>
+        </p>
+        <button type="submit" class="btn">Submit Answer</button>
+    </form>
+
+    <h2>Answers</h2>
+    <div class="answers-container">
+        <div th:each="answer : ${answers}" class="answer-section" th:classappend="${answer.pinned} ? 'pinned-answer' : ''">
+            <div class="answer-header">
+                <a th:href="'http://localhost:8080/' + ${answer.getAuthorName()}" th:text="${answer.getAuthorName()}">Author</a>
+                <span class="answer-content" th:text="${answer.content}">Answer</span>
+                <form th:action="@{/questions/{id}/answers/{answerId}/pin(id=${question.id}, answerId=${answer.id})}" method="post" class="pin-form">
+                    <button type="submit" class="pin-btn" title="Pin Answer"><i class="fa fa-thumbtack"></i></button>
+                </form>
+            </div>
+
+            <div class="answer-actions">
+                <form th:action="@{/questions/{id}/answers/{answerId}/like(id=${question.id}, answerId=${answer.id})}" method="post" class="like-form">
+                    <button type="submit" class="like-btn"><i class="fa fa-thumbs-up"></i></button>
+                    <span class="likes-count" th:text="${answer.likes}">0</span>
+                </form>
+            </div>
+
+            <div class="comments-section">
+                <h4>Comments</h4>
+                <ul class="comments-list" th:each="comment : ${answer.comments}">
+                    <li>
+                        <a th:href="'http://localhost:8080/' + ${comment.author}" th:text="${comment.author}">Author</a>
+                        <span th:text="${comment.content}">Comment</span>
+                    </li>
+                </ul>
+
+                <form th:action="@{/questions/{id}/answers/{answerId}/comments(id=${question.id}, answerId=${answer.id})}" method="post" class="add-comment-form">
+                    <textarea name="commentContent" class="comment-box" placeholder="Add a comment..." required></textarea>
+                    <button type="submit" class="btn"><i class="fa fa-comment"></i> Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="btn back-btn"><i class="fa fa-arrow-left"></i> Back</a>
+    </div>
+</main>
+
+</body>
+</html>

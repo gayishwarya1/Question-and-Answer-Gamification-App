@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A - Ask a Question</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <h1>Q&A - Ask a Question</h1>
+</header>
+
+<main>
+    <h2>Ask Your Question</h2>
+    <form action="#" th:action="@{/questions/ask}" th:object="${question}" method="post">
+        <p>
+            <label for="title">Title</label>
+            <input id="title" type="text" th:field="*{title}" placeholder="Enter the title of your question" required>
+        </p>
+        <p>
+            <label for="content">Content</label>
+            <textarea id="content" th:field="*{content}" placeholder="Describe your question in detail" required></textarea>
+        </p>
+        <p>
+            <label for="category">Select a Category</label>
+            <select id="category" th:field="*{category.id}">
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.id}"></option>
+                <option value="">Other</option>
+            </select>
+        </p>
+        <button type="submit" class="btn"><i class="fa fa-paper-plane"></i> Submit Your Question</button>
+    </form>
+
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="btn back-btn"><i class="fa fa-arrow-left"></i> Back</a>
+    </div>
+</main>
+
+
+
+</body>
+</html>

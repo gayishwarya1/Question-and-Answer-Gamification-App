@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A - Questions</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <h1><a href="http://localhost:8080" style="text-decoration: none; color: inherit;">Q&A-Questions</a></h1>
+</header>
+
+
+<main>
+    <h2>
+        <span th:if="${category != null}" th:text="'Questions in category ' + ${category} + ''"></span>
+        <span th:if="${category == null} and ${author != null}" th:text="'Questions by ' + ${author}"></span>
+        <span th:if="${category == null} and ${author == null}">All Questions</span>
+    </h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Content</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${questions.empty}">
+            <td colspan="5" class="no-questions">Oops, there are no questions yet!</td>
+        </tr>
+        <tr th:each="question : ${questions}">
+            <td><a th:href="'http://localhost:8080/' + ${question.getAuthor()}" th:text="${question.getAuthor()}">Author</a></td>
+            <td><span th:text="${question.getTitle()}">Title</span></td>
+            <td>
+                <span th:if="${question.category != null}" th:text="${question.category.id}">Category</span>
+                <span th:if="${question.category == null}">N/A</span>
+            </td>
+            <td><span th:text="${question.getContent()}">Content</span></td>
+            <td>
+                <a th:href="'http://localhost:8080/questions/' + ${question.getId()}" class="btn">Click to Answer !</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a href="/questions/ask" class="btn">Ask Another Question</a>
+    </div>
+
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="btn back-btn"><i class="fa fa-arrow-left"></i> Back</a>
+    </div>
+</main>
+
+</body>
+</html>
